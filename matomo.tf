@@ -88,10 +88,6 @@ resource "null_resource" "MatomoInstance_provisioner" {
       private_key = tls_private_key.public_private_key_pair.private_key_pem
       agent       = false
       timeout     = "10m"
-      bastion_host        = "host.bastion.${var.region}.oci.oraclecloud.com"
-      bastion_port        = "22"
-      bastion_user        = oci_bastion_session.ssh_via_bastion_service.id
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
   }
 
@@ -103,10 +99,6 @@ resource "null_resource" "MatomoInstance_provisioner" {
       private_key = tls_private_key.public_private_key_pair.private_key_pem
       agent       = false
       timeout     = "10m"
-      bastion_host        = "host.bastion.${var.region}.oci.oraclecloud.com"
-      bastion_port        = "22"
-      bastion_user        = oci_bastion_session.ssh_via_bastion_service.id
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
    
     inline = [
