@@ -79,16 +79,19 @@ resource "null_resource" "MatomoInstance_provisioner" {
 
   provisioner "file" {
     content     = data.template_file.install_matomo.rendered
-    destination = "~/install_matomo.sh"
+    destination = "/home/opc/install_matomo.sh"
 
     connection  {
       type        = "ssh"
       host        = oci_core_public_ip.MatomoInstance_public_ip.ip_address
       user        = "opc"
       private_key = tls_private_key.public_private_key_pair.private_key_pem
-      script_path = "/home/opc/myssh.sh"
       agent       = false
       timeout     = "10m"
+      bastion_host        = "host.bastion.${var.region}.oci.oraclecloud.com"
+      bastion_port        = "22"
+      bastion_user        = oci_bastion_session.ssh_via_bastion_service.id
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
   }
 
@@ -98,12 +101,16 @@ resource "null_resource" "MatomoInstance_provisioner" {
       host        = oci_core_public_ip.MatomoInstance_public_ip.ip_address
       user        = "opc"
       private_key = tls_private_key.public_private_key_pair.private_key_pem
-      script_path = "/home/opc/myssh.sh"
       agent       = false
       timeout     = "10m"
+      bastion_host        = "host.bastion.${var.region}.oci.oraclecloud.com"
+      bastion_port        = "22"
+      bastion_user        = oci_bastion_session.ssh_via_bastion_service.id
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
    
-    inline = [       
+    inline = [
+       "ls -l /home/opc/install_matomo.sh",  # Debug: Check if file exists
        "chmod +x ~/install_matomo.sh",
        "sudo ~/install_matomo.sh",
     ]
