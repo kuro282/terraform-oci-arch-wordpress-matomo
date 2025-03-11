@@ -75,7 +75,7 @@ resource "null_resource" "MySQL_provisioner" {
 
   provisioner "file" {
     content     = data.template_file.install_mysql.rendered
-    destination = "~/install_mysql.sh"
+    destination = "/home/opc/install_mysql.sh"
 
     connection  {
       type                = "ssh"
