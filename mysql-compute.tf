@@ -82,7 +82,6 @@ resource "null_resource" "MySQL_provisioner" {
       host                = data.oci_core_vnic.MySQLinstance_vnic1.private_ip_address 
       user                = "opc"
       private_key         = tls_private_key.public_private_key_pair.private_key_pem
-      script_path         = "/home/opc/myssh.sh"
       agent               = false
       timeout             = "10m"
       bastion_host        = "host.bastion.${var.region}.oci.oraclecloud.com" 
@@ -98,7 +97,6 @@ resource "null_resource" "MySQL_provisioner" {
       host                = data.oci_core_vnic.MySQLinstance_vnic1.private_ip_address 
       user                = "opc"
       private_key         = tls_private_key.public_private_key_pair.private_key_pem
-      script_path         = "/home/opc/myssh.sh"
       agent               = false
       timeout             = "10m"
       bastion_host        = "host.bastion.${var.region}.oci.oraclecloud.com" 
@@ -107,7 +105,8 @@ resource "null_resource" "MySQL_provisioner" {
       bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
    
-    inline = [       
+    inline = [
+       "ls -l /home/opc/install_mysql.sh",  # Debug: Check if file exists
        "chmod +x ~/install_mysql.sh",
        "sudo ~/install_mysql.sh",
     ]
